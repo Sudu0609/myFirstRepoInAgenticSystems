@@ -11,6 +11,12 @@
             "driver": "SQLite",
             "name": "mydb2",
             "database": "test.db"
+        },
+        {
+            "previewLimit": 50,
+            "driver": "SQLite",
+            "name": "mydb3",
+            "database": "test.db"
         }
     ],
     "sqltools.useNodeRuntime": true

@@ -1,3 +1,9 @@
+-- STEP 1: DROP TABLES (avoid errors)
+DROP TABLE IF EXISTS users;
+DROP TABLE IF EXISTS orders;
+DROP TABLE IF EXISTS activity;
+
+-- STEP 2: CREATE TABLES
 CREATE TABLE users (
     user_id INT PRIMARY KEY,
     name TEXT,
@@ -15,6 +21,7 @@ CREATE TABLE activity (
     login_count INT
 );
 
+-- STEP 3: INSERT DATA
 INSERT INTO users VALUES
 (1, 'Aarav', '2023-01-10'),
 (2, 'Diya', '2023-02-14'),
@@ -34,3 +41,82 @@ INSERT INTO activity VALUES
 (2, 10),
 (3, 5),
 (5, 12);
+
+-- STEP 4: CHECK DATA
+SELECT * FROM users;
+SELECT * FROM orders;
+SELECT * FROM activity;
+
+-- STEP 5: QUERIES
+
+-- 1
+SELECT u.name, o.amount
+FROM users u
+INNER JOIN orders o ON u.user_id = o.user_id;
+
+-- 2
+SELECT u.name, SUM(o.amount) AS total_amount
+FROM users u
+INNER JOIN orders o ON u.user_id = o.user_id
+GROUP BY u.name;
+
+-- 3
+SELECT u.name, a.login_count
+FROM users u
+LEFT JOIN activity a ON u.user_id = a.user_id;
+
+-- 4
+SELECT u.name
+FROM users u
+LEFT JOIN orders o ON u.user_id = o.user_id
+WHERE o.user_id IS NULL;
+
+-- 5
+SELECT u.user_id, u.name,
+       SUM(o.amount) AS total_order_amount,
+       a.login_count
+FROM users u
+LEFT JOIN orders o ON u.user_id = o.user_id
+LEFT JOIN activity a ON u.user_id = a.user_id
+GROUP BY u.user_id, u.name, a.login_count;
+
+-- 6
+SELECT DISTINCT u.name
+FROM users u
+INNER JOIN orders o ON u.user_id = o.user_id
+WHERE o.amount > 400;
+
+-- 7
+SELECT u.name, SUM(o.amount) AS total_amount
+FROM users u
+INNER JOIN orders o ON u.user_id = o.user_id
+GROUP BY u.name
+ORDER BY total_amount DESC
+LIMIT 3;
+
+-- 8
+SELECT u.name,
+       SUM(o.amount) AS total_amount,
+       a.login_count
+FROM users u
+LEFT JOIN orders o ON u.user_id = o.user_id
+LEFT JOIN activity a ON u.user_id = a.user_id
+GROUP BY u.name, a.login_count
+ORDER BY total_amount DESC, a.login_count DESC;
+
+-- 9
+SELECT u.name, AVG(o.amount) AS avg_amount
+FROM users u
+INNER JOIN orders o ON u.user_id = o.user_id
+GROUP BY u.name;
+
+-- 10
+SELECT u.user_id, u.name,
+       SUM(o.amount) AS total_order_amount,
+       a.login_count
+FROM users u
+LEFT JOIN orders o ON u.user_id = o.user_id
+LEFT JOIN activity a ON u.user_id = a.user_id
+GROUP BY u.user_id, u.name, a.login_count
+ORDER BY total_order_amount DESC
+LIMIT 3;
