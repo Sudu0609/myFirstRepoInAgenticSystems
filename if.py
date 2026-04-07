@@ -1,29 +1,17 @@
-def grade_students(student_list):
-    result = {}
-
-    for student in student_list:
-        name = student['name']
-        score = student['score']
-
-        if score >= 90:
-            grade = 'A'
-        elif score >= 75:
-            grade = 'B'
-        elif score >= 60:
-            grade = 'C'
-        else:
-            grade = 'F'
-
-        result[name] = grade
-
+def filter_products(products, category_name, min_price):
+    result = []
+    
+    for product in products:
+        if product['category'] == category_name and product['price'] >= min_price:
+            result.append(product['name'])
+    
     return result
 
-
-students = [
-    {'name': 'Alice', 'score': 92},
-    {'name': 'Bob',   'score': 74},
-    {'name': 'Carol', 'score': 61},
-    {'name': 'Dave',  'score': 45}
+products = [
+    {'name': 'Laptop', 'category': 'Electronics', 'price': 50000},
+    {'name': 'Shirt', 'category': 'Clothing', 'price': 1500},
+    {'name': 'Phone', 'category': 'Electronics', 'price': 20000}
 ]
 
-print(grade_students(students))
+result = filter_products(products, 'Electronics', 20000)
+print(result)
